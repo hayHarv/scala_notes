@@ -127,6 +127,37 @@ println(" ")
  println(varargs)
  println(" ")
  
+ /**Cool Trick: Polymorphic methods
+  * https://docs.scala-lang.org/tour/polymorphic-methods.html
+  * 
+  * Allows types to be parameterized AND it can infer type
+  **/
+  
+def listOfDuplicates[A](x: A, length: Int): List[A] = {
+  if (length < 1)
+    Nil
+  else
+    x :: listOfDuplicates(x, length -1)
+}
+
+// specifying type
+println(listOfDuplicates[Int](2,5))
+
+// using type inference
+println(listOfDuplicates("fun", 3))
+
+// Example: http://biercoff.com/easily-measuring-code-execution-time-in-scala/
+
+// times a block of code and gives the result and time taken in nanoseconds
+// R is the type of result of the block
+def time[R](block: => R): R = {
+  val t0 = System.nanoTime()
+  val result = block
+  val t1 = System.nanoTime()
+  println("Elapsed Time: " + (t1-t0) + "ns")
+  result
+}
+var dupes = time(listOfDuplicates[Int](2,500))
 
 /** Currying arguments
 * For when u want to apply arguments to a function step-by-step
@@ -192,4 +223,3 @@ println(" ")
 lassie.poop
 println(" ")
  
-
